@@ -1,0 +1,113 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body style="background-color:#E0E6E8;color:#2E3236;">
+**Images as Textures**
+
+Student Name: Madeleine Sandri
+    
+Legi Number: 18-823-948
+
+<div class="container">
+    <img src="images/imgTextureClasses.jpg" alt="Code Structure" style="height:480px; width:800px;" class="img-responsive"></img>    
+</div>
+
+
+# Introduction
+
+In this part I will implement Images as textures, a function which takes an `.exr` image file and maps it to the assignes mesh's UV coordinates.
+The user will be able to decide if they would like the image texture to be clamped or repeated on the mesh. Moreover, they will have the possibility to scale the texture.
+
+# Implementation
+The implementation for this feature can be found in `imagetexture.cpp`. This class inherites from `Texture<T>`. It holds the following attributes :
+
+    - `m_filename` containing the name of the image file (.exr)
+    - `m_bitmap` a pointer to a bitmap containing the image data 
+    - `m_scale` a 2D Vector containing the scale of the image 
+    - `m_repeat` a boolean containing the wrap option (clamped or repeat)
+
+The implemented methods are :
+    - A constructor : retrieves the attributes from the propList and maps the bitmap
+    - A destructor that deals with clearing the pointer to the bitmap during destruction
+    - `toString()` method returning a human readable string describing the instance
+    - `eval` method defining the UV to RGB mapping explained below
+
+Please note that my implementation of this class is only compatible for `Color3f` return types.
+
+**eval Method**
+
+This method returns the bilinear interpolated RGB value for a specific UV pair. The implementation goes as follows :
+
+    - **if clamp**
+        - Cast the UV coordinates into the image space (multiply by widht height and scale)
+        - Clamp the UV coordinates to `[0, width-1]x[0, height-1]`
+    - **if repeat**
+        - Take the remainder of the scaled UV coordinates with their natural number division with 1 (i.e. values after the comma)
+        - If result is negative, add 1 to get the UV coordinates inside the $[0,1]^2$ interval
+        - Cast into the image space (multiply by the size of image)
+    - Calculate the floor and ceiling int calues of U and V as int
+    - Retrive the corresponding 4 values from the bitmap that surround our mapped point for interpolation
+    - Calculate the distance factors for interpolation and perform interpolation. 
+    - Return the calulated value
+
+
+# Validation
+
+The way to create an image texture from an `.xml` scene is to add a texture as a bsdf child like so :
+
+
+<img src="images/imageTexture_xml.png" alt="xml convention" class="img-responsive"></img>    
+
+With the fields `scale` a 2D vector that defines the scaling of the image (default is (1,1)), and a boolean value "repeat" that defines if the user would like the image texture to be clamped or repeated throughout the mesh (default is "true").
+Please note that the image files **must be .exr**.
+
+For validation, I use the following <a href="https://en.wikipedia.org/wiki/File:UV_checker_Map_byValle.jpg">debug texture</a> and compare my scenes to Mitsuba.
+I had to apply slight transformations (rotation) on the Mitsuba textures for them to match my scenes, due to differences in convention for the UV Mapping (V coordinate flipped).
+
+These scenes can be found in `scenes/imagetextures/`.
+
+**Sphere Texture**
+<div class="twentytwenty-container">
+        <img src="scenes/imagetexture/sphere-texture.png" alt="Nori" class="img-responsive">
+        <img src="scenes/imagetexture/sphere-texture_mitsuba.png" alt="Mitsuba" class="img-responsive">
+</div>
+
+**Texture on Mesh**
+<div class="twentytwenty-container">
+    <img src="scenes/imagetexture/camelhead-texture_clamp.png" alt="Nori clamped" class="img-responsive">
+    <img src="scenes/imagetexture/camelhead-texture_mitsuba_clamp.png" alt="Mitsuba clamped" class="img-responsive">
+    <img src="scenes/imagetexture/camelhead-texture_repeat.png" alt="Nori repeat" class="img-responsive">
+    <img src="scenes/imagetexture/camelhead-texture_mitsuba_repeat.png" alt="Mitsuba repeat" class="img-responsive">
+</div>
+
+**Scaled Texture**
+<div class="twentytwenty-container">
+    <img src="scenes/imagetexture/camelhead-texture_clamp_scale2.png" alt="Clamped Scale=(2,2)" class="img-responsive">
+    <img src="scenes/imagetexture/camelhead-texture_clamp_scale05.png" alt="Clamped Scale=(0.5, 0.5)" class="img-responsive">
+    <img src="scenes/imagetexture/camelhead-texture_repeat_scale2.png" alt="Repeat Scale=(2,2)" class="img-responsive">
+    <img src="scenes/imagetexture/camelhead-texture_repeat_scale05.png" alt="Repeat Scale=(0.5, 0.5)" class="img-responsive">
+</div>
+
+I did not encounter any particular difficulties during the implementation of this feature.
+
+<input type="button" style="background:#cdd4ff;color:black;" onclick="location.href='index.html';" value="Back to Main Page" /> 
+
+<!-- Bootstrap core CSS and JavaScript -->
+
+<link href="../resources/offcanvas.css" rel="stylesheet">
+<link href="../resources/twentytwenty.css" rel="stylesheet" type="text/css" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="../resources/bootstrap.min.js"></script>
+<script src="../resources/jquery.event.move.js"></script>
+<script src="../resources/jquery.twentytwenty.js"></script>
+
+<script>
+$(window).load(function(){$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});});
+</script>
+
+<!-- Markdeep: -->
+<script>var markdeepOptions = {onLoad: function() {$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5, move_slider_on_hover: true});},tocStyle:'none'};</script>
+<script src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js?" charset="utf-8"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+</body>

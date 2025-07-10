@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<scene version="0.6.0">
+	<integrator type="volpath">
+		<integer name="max_depth" value="15"/>
+	</integrator>
+
+	<sensor type="perspective">
+		<float name="fov" value="27.7856"/>
+		<transform name="toWorld">
+			<scale value="1,1,1"/>
+			<lookat target="0, 0.893051, 4.41198" origin="0, 0.919769, 5.41159" up="0, 1, 0"/>
+		</transform>
+
+		<sampler type="independent">
+            <integer name="sample_count" value="256"/>
+        </sampler>
+
+		<film type="hdrfilm">
+			<integer name="height" value="600"/>
+			<integer name="width" value="800"/>
+		</film>
+	</sensor>
+
+	<sampler type="independent">
+		<integer name="sampleCount" value="256"/>
+	</sampler>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/walls.obj"/>
+
+		<bsdf type="diffuse">
+			<rgb name="reflectance" value="0.725, 0.71, 0.68"/>
+		</bsdf>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/rightwall.obj"/>
+
+		<bsdf type="diffuse">
+			<rgb name="reflectance" value="0.161, 0.133, 0.427"/>
+		</bsdf>
+	</shape>
+
+	<shape type="sphere">
+		<point name="center" value="0 0.8 0" />
+		<float name="radius" value="0.6" />
+
+		<bsdf type="null"/>
+		<medium name="interior" type="homogeneous">
+			<rgb name="albedo" value="0.6, 0.8, 0.99"/>
+    		<float name="sigma_t" value="2"/>
+			<phase type="hg">
+    			<float name="g" value="0.9"/>
+			</phase>
+		</medium>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="meshes/leftwall.obj"/>
+
+		<emitter type="area">
+			<rgb name="radiance" value="0.7"/>
+		</emitter>
+	</shape>
+</scene>

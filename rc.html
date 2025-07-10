@@ -1,0 +1,51 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body style="background-color:#e8e2e0;color:#2E3236;">
+
+**Rendering Competition Submission**
+
+Student Name: Madeleine Sandri
+        
+Legi Number: 18-823-948
+
+<div class="container">
+    <img src="scenes/final/finalimage_denoised_2048.png" alt="Code Structure" class="img-responsive"></img>    
+</div>
+
+Above is the image I would like to submit to this years' Rendering Competition. The scene can be found in `scenes/final/finalimage.xml`
+
+# Descriptive Text and Relation to the Theme
+
+This scene represents a peaceful and enchanting picture of the silent ice world. At first, our attention is drawn to the dominating walls of ice. Smooth and luminescent, these colossal blocks reveal, upon closer inspection, faces etched naturally into their icy contours. In the foreground is a beautiful dark lake, who's ripples give a slight hint of motion. Initially one might overlook the subtle transparency of the water, allowing glimpses into its deep, enigmatic depths. Islands of ice seem to surrender to the liquid, descending into the mysterious unknown below. At the center of the piece, and covered by a light layer of volcanic smoke arising from one of the rocks, there lies discrete glowing stalagmites. Their ethereal glow suggests an invitation, a whispered promise of a clandestine path or concealed treasure nestled within the cavern. All these delicate details make us wonder if there is not more going on in this scene than what we can see - things that even with eyes viewing into every corner of every crevice of this cave would not see. Indeed, the more the intricate details in this scene are discovered, the more the viewer gains tranquil curiosity, with one lingering question - is there more to this world than what is visible to the human eye?
+# Modelisation Details
+
+For this scene, I used the <a href="https://www.cgtrader.com/free-3d-models/exterior/landscape/mountains-and-robor">following asset</a> from CGTrader. I manipulated these meshes to my liking in Blender before transferring them to Nori. Once I had the non textured version of my scene, I started to experiment with BSDFs. This was a lot of fun for me. The best effect I found for the ice blocks was duplicating the mesh, slightly shifting one of them, and then setting the back one as a diffuse white BSDF and the front one as a dielectric mesh filled with blue homogeneous medium. I even proceeded to turning the back mesh into a very light emitter for the left ice block, giving a more vibrant effect. This technique doesn't only give a cool subsurface scattering effect, but it also reduces the render time seeing as there is less volume of media.
+
+The lake water is also a homogeneous media, with a bump mapping and a dielectric BSDF.  The top rocks and the right rocks are simple meshes with image textures and in some case bump mapping, so are the rocks on the ground. The stalagmites are from <a href="https://www.turbosquid.com/3d-models/cave-rock-pack-1-3d-model-1965252">TurboSquid</a>.I remodeled them to work as a collection (one single mesh) and distributed them in my scene, a group on the ceiling in the foreground, and two groups in the center. One of the groups of stalagmites I also layered with an identical mesh shifted down and set as area emitter, this gives the magical glow effect from these stalagmites.
+
+Finally, I added a heterogeneous smoke medium coming out of one of the rocks. I made sure not to make it too dense as I wanted to keep it subtle and not take up too much space in the scene.
+
+I am delighted to submit this image to the rendering competition. If it gets selected for the presentation, I would be happy to render it with double the samples to remove some of the "paint like" effects of the denoiser. This image was rendered with 2048 samples.
+
+<input type="button" style="background:#cdd4ff;color:black;" onclick="location.href='index.html';" value="Back to Main Page" /> 
+
+<!-- Bootstrap core CSS and JavaScript -->
+
+<link href="../resources/offcanvas.css" rel="stylesheet">
+<link href="../resources/twentytwenty.css" rel="stylesheet" type="text/css" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="../resources/bootstrap.min.js"></script>
+<script src="../resources/jquery.event.move.js"></script>
+<script src="../resources/jquery.twentytwenty.js"></script>
+
+<script>
+$(window).load(function(){$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});});
+</script>
+
+<!-- Markdeep: -->
+<script>var markdeepOptions = {onLoad: function() {$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5, move_slider_on_hover: true});},tocStyle:'none'};</script>
+<script src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js?" charset="utf-8"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+</body>

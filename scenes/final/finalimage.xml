@@ -1,0 +1,369 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<scene>
+	<integrator type="volpath_mixed"/>
+
+	<camera type="perspective">
+
+		<rfilter type="box"/>
+		<float name="fov" value="27.7856"/>
+		<transform name="toWorld">
+			<scale value="-1,1,1"/>
+			<lookat target="0, 0.893051, 4.41198" origin="0, 1.2, 6.7" up="0, 1, 0"/>
+		</transform>
+
+		<integer name="height" value="1080"/>
+		<integer name="width" value="1920"/>
+	</camera>
+
+	<sampler type="independent">
+		<integer name="sampleCount" value="4096"/>
+	</sampler>
+
+	<!--ice wall 1-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/wallrightCave.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="1 1 1"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/wallrightCave.obj"/>
+		<bsdf type="dielectric"/>
+		<medium type="homogeneous" name="interior">
+			<color name="albedo" value="0.8, 0.95, 1"/>
+    		<float name="sigma_t" value="17"/>
+	
+			<phase type="isotropic"/>
+		</medium>
+		<transform name="toWorld">
+			<!--scale value="2,2,2"/-->
+			<translate value="-0.01,0,0.05"/>
+		</transform>
+	</mesh>
+
+	<!--ice wall 2-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/wallleftCave.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="1 1 1"/>
+		</bsdf>
+		<emitter type="area">
+			<color name="radiance" value="0.03 0.07 0.18"/>
+		</emitter>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/wallleftCave.obj"/>
+		<bsdf type="dielectric"/>
+		<medium type="homogeneous" name="interior">
+			<color name="albedo" value="0.8, 0.95, 1"/>
+    		<float name="sigma_t" value="17"/>
+	
+			<phase type="isotropic"/>
+		</medium>
+		<transform name="toWorld">
+			<scale value="1.01,1.01,1.01"/>
+			<translate value="0.01,0,0.05"/>
+		</transform>
+	</mesh>
+
+	<!--rocks-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/rocks.obj"/>
+		<bsdf type="bumpmap">
+			<bsdf type="diffuse">
+            	<texture type="imagetexture" name="albedo">
+					<vector name="scale" value="0.05,0.05"/>
+                	<string name="filename" value="textures/rocky.exr"/>
+					<boolean name="repeat" value="true"/>
+            	</texture>
+        	</bsdf>
+            <texture type="imagetexture" name="albedo">
+				<vector name="scale" value="0.05,0.05"/>
+                <string name="filename" value="textures/rocky.exr"/>
+				<boolean name="repeat" value="true"/>
+            </texture>
+        </bsdf>
+	</mesh>
+	<!--ice middle-->
+	<!--mesh type="obj">
+		<string name="filename" value="meshes/middleBlock.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="1 1 1"/>
+		</bsdf>
+	</mesh-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/middleBlock.obj"/>
+		<bsdf type="dielectric"/>
+		<medium type="homogeneous" name="interior">
+			<color name="albedo" value="0.8, 0.95, 1"/>
+    		<float name="sigma_t" value="7"/>
+	
+			<phase type="isotropic"/>
+		</medium>
+		<transform name="toWorld">
+			<!--scale value="2,2,2"/-->
+			<translate value="0,0,0.05"/>
+		</transform>
+	</mesh>
+	<!-- rock wall right -->
+	<mesh type="obj">
+		<string name="filename" value="meshes/sideBlock3.obj"/>
+			<bsdf type="diffuse">
+            	<texture type="imagetexture" name="albedo">
+					<vector name="scale" value="0.05,0.05"/>
+                	<string name="filename" value="textures/rocky.exr"/>
+					<boolean name="repeat" value="true"/>
+            	</texture>
+        	</bsdf>
+ 
+		
+		<transform name="toWorld">
+			<!--scale value="2,2,2"/-->
+			<translate value="0,-0.5,0"/>
+		</transform>
+	</mesh>
+
+	<!--rock wall top-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/sideblock2.obj"/>
+		<bsdf type="diffuse">
+			<texture type="imagetexture" name="albedo">
+				<vector name="scale" value="0.05,0.05"/>
+
+            	<string name="filename" value="textures/rocky2.exr"/>
+				<boolean name="repeat" value="true"/>
+        	</texture>
+            
+       	</bsdf>
+		<transform name="toWorld">
+			<!--scale value="2,2,2"/-->
+			<translate value="0,-0.5,0"/>
+		</transform>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/cavefloor.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="1 1 1"/>
+		</bsdf>
+		<transform name="toWorld">
+			<scale value="2,2,2"/>
+		</transform>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/water.obj"/>
+		
+		<transform name="toWorld">
+			<scale value="3,0.3,3"/>
+			<translate value="0,0.011,-0.5"/>
+		</transform>
+		<bsdf type="bumpmap">
+			<bsdf type="dielectric"/>
+			
+            <texture type="imagetexture" name="albedo">
+				<vector name="scale" value="0.05,0.05"/>
+                <string name="filename" value="textures/blue-water.exr"/>
+				<boolean name="repeat" value="true"/>
+            </texture>
+        </bsdf>
+		<medium type="homogeneous" name="interior">
+				<color name="albedo" value="0.1, 0.3, 0.4"/>
+    			<float name="sigma_t" value="10"/>
+	
+			<phase type="hg">
+				<float name="g" value="-0.9"/>
+			</phase>
+		</medium>
+	</mesh>
+
+	<mesh type="obj">
+		<string name="filename" value="meshes/icecles.obj"/>
+
+		<bsdf type="dielectric"/>
+		<medium type="homogeneous" name="interior">
+			<color name="albedo" value="0.7, 0.9, 1"/>
+    		<float name="sigma_t" value="17"/>
+	
+			<phase type="isotropic"/>
+		</medium>
+		<transform name="toWorld">
+			<!--scale value="2,2,2"/-->
+			<translate value="0.7,-0.4,0.4"/>
+		</transform>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/icecles.obj"/>
+
+		<bsdf type="dielectric"/>
+		<medium type="homogeneous" name="interior">
+			<color name="albedo" value="0.7, 0.9, 1"/>
+    		<float name="sigma_t" value="17"/>
+	
+			<phase type="isotropic"/>
+		</medium>
+		<transform name="toWorld">
+			<!--scale value="2,2,2"/-->
+			<translate value="0.6,-0.1,-0.2"/>
+		</transform>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/iciclesfloor.obj"/>
+
+		<bsdf type="dielectric"/>
+		<medium type="homogeneous" name="interior">
+			<color name="albedo" value="0.7, 0.9, 1"/>
+    		<float name="sigma_t" value="17"/>
+	
+			<phase type="isotropic"/>
+		</medium>
+		<transform name="toWorld">
+			<scale value="1.5,1.5,1"/>
+			<translate value="0,-0.1,0.1"/>
+		</transform>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/illumRocksDiff.obj"/>
+	
+		<emitter type="area">
+			<color name="radiance" value="2 3 4"/>
+		</emitter>
+
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/illumRocks.obj"/>
+	
+		<bsdf type="dielectric"/>
+		<medium type="homogeneous" name="interior">
+			<color name="albedo" value="0.7, 0.9, 1"/>
+    		<float name="sigma_t" value="17"/>
+	
+			<phase type="isotropic"/>
+		</medium>
+
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/stalagmites.obj"/>
+	
+		<bsdf type="dielectric"/>
+		<medium type="homogeneous" name="interior">
+			<color name="albedo" value="0.7, 0.9, 1"/>
+    		<float name="sigma_t" value="13"/>
+	
+			<phase type="isotropic"/>
+		</medium>
+
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/window.obj"/>
+	
+		<bsdf type="dielectric"/>
+		<medium type="homogeneous" name="interior">
+			<color name="albedo" value="0.89, 0.9, 1"/>
+    		<float name="sigma_t" value="20"/>
+	
+			<float name="sigma_t" value="25"/>
+	
+			<phase type="hg">
+				<float name="g" value="0.1"/>
+			</phase>
+		</medium>
+
+	</mesh>
+	<!--top light-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/light.obj"/>
+
+		<emitter type="area">
+			<color name="radiance" value="30 30 30"/>
+		</emitter>
+		<transform name="toWorld">
+			<!--scale value="2,2,2"/-->
+			<translate value="0,0.6,0"/>
+		</transform>
+	</mesh>
+	<!--top light-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/light.obj"/>
+
+		<emitter type="area">
+			<color name="radiance" value="30 30 30"/>
+		</emitter>
+		<transform name="toWorld">
+			<!--scale value="2,2,2"/-->
+			<translate value="0,0.6,0.5"/>
+			<scale value="2,2,2"/>
+		</transform>
+	</mesh>
+	<!--front light-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/light.obj"/>
+
+		<emitter type="area">
+			<color name="radiance" value="50 50 50"/>
+		</emitter>
+		<transform name="toWorld">
+			<!--scale value="2,2,2"/-->
+			<translate value="0,0.6,0"/>
+			<rotate axis="0,0,1" angle="-10"/>
+		</transform>
+	</mesh>
+
+	<!--back light-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/light.obj"/>
+		<transform name="toWorld">
+			<rotate axis="1,0,0" angle="-80"/>
+			<rotate axis="0,1,0" angle="-30"/>
+			<!--scale value="2,2,2"/-->
+			<translate value="-0.1,0.3,-3"/>
+		</transform>
+
+		<emitter type="area">
+			<color name="radiance" value="3 3 3"/>
+		</emitter>
+	</mesh>
+	<!-- smoke 2 hetero-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/domain2.obj"/>
+        <transform name="toWorld">
+				<scale value="1.5, 1.3, 1"/>
+        </transform>
+		<medium name="interior" type="heterogeneous">
+			<float name="scale" value="250"/>
+
+        	<volume type="gridvolume">
+				<transform name="toWorld">
+					<scale value="1, 1, 1"/>
+                	<translate value="-0.7, 0, -0.5"/>
+					<rotate axis="0,1,0" angle="180"/>
+        		</transform>
+            	
+            	<string name="filename" value="textures/smoke2.vol"/>
+        	</volume>
+
+        	<!--color name="albedo" value="0.6, 0.8, 0.95"/-->
+			<color name="albedo" value="0.8, 0.8, 0.8"/>
+
+        	<phase type="isotropic" />
+    	</medium>
+	</mesh>
+
+    <!-- smoke 2 homo-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/domainHomo.obj"/>
+
+		<medium name="interior" type="homogeneous">
+
+        	<color name="albedo" value="1 1 1"/>
+    		<float name="sigma_t" value="2"/>
+
+        	<phase type="hg">
+				<float name="g" value="0.9"/>
+			</phase>
+    	</medium>
+		<transform name="toWorld">
+			<scale value="0.9, 0.9, 0.9"/>
+        </transform>
+	</mesh>
+
+</scene>
